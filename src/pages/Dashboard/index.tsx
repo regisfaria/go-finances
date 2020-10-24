@@ -19,7 +19,7 @@ interface Transaction {
   formatedDate: string;
   type: 'income' | 'outcome';
   category: { title: string };
-  createdAt: Date;
+  created_at: Date;
 }
 
 interface Balance {
@@ -52,6 +52,7 @@ const Dashboard: React.FC = () => {
             </header>
             <h1 data-testid="balance-income">
               {formatValue(Number(balance.income))}
+              ,00
             </h1>
           </Card>
           <Card>
@@ -61,6 +62,7 @@ const Dashboard: React.FC = () => {
             </header>
             <h1 data-testid="balance-outcome">
               {formatValue(Number(balance.outcome))}
+              ,00
             </h1>
           </Card>
           <Card total>
@@ -70,6 +72,7 @@ const Dashboard: React.FC = () => {
             </header>
             <h1 data-testid="balance-total">
               {formatValue(Number(balance.total))}
+              ,00
             </h1>
           </Card>
         </CardContainer>
@@ -89,7 +92,12 @@ const Dashboard: React.FC = () => {
               {transactions.map(transaction => (
                 <tr>
                   <td className="title">{transaction.title}</td>
-                  <td className="income">{formatValue(transaction.value)}</td>
+                  <td className={transaction.type}>
+                    {transaction.type === 'outcome' && '-'}
+                    &nbsp;
+                    {formatValue(transaction.value)}
+                    ,00
+                  </td>
                   <td>{transaction.category.title}</td>
                   <td>{transaction.formatedDate}</td>
                 </tr>
